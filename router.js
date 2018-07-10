@@ -1,5 +1,5 @@
-const Account = require('./controllers/account');
-    // Feedback = require('./controllers/feedback');
+const Account = require('./controllers/account'),
+    Feedback = require('./controllers/feedback');
 
 module.exports = function (app) {
 
@@ -13,11 +13,8 @@ module.exports = function (app) {
 
     app.post('/account/:login/editPass', Account.editPass);
 
-    //
-    // app.post('/feedback/create', Feedback.create);
-    //
-    // app.delete('/feedback/delete', Feedback.delete);
-    //
-    // app.put('/feedback/edit', Feedback.edit);
+    app.post('/feedback/create', Feedback.create);
+
+    app.delete('/feedback/delete', Feedback.delete);
 
 }

@@ -6,9 +6,9 @@ var Feedback = mongoose.Schema({
     date: {
         type: Date,
         required: true,
-        default: new Date.now()
+        default: new Date()
     },
-    account: {
+    user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Account',
         required: true

@@ -1,7 +1,8 @@
 'use strict'
 
 var Account = require('../models/Account'),
-    password = require('./password');
+    password = require('./password'),
+    logger = require('./logger');
 
 module.exports = {
 
@@ -39,6 +40,7 @@ module.exports = {
                 name: body.name
             });
             account = await account.save();
+            logger.log(`Создан аккаунт -> ${account.name}`);
             res.json(account);
         }
     },
@@ -56,9 +58,10 @@ module.exports = {
             res.json({"error": "Ф.И.О. пользователя обязательно для заполнения!"})
             return;
         }
-
+        var oldName = account.name;
         account.name = body.name;
         account = await account.save();
+        logger.log(`Изменен аккаунт ${account.name}: ${oldName} -> ${body.name}`);
         res.json(account);
     },
 
@@ -78,12 +81,14 @@ module.exports = {
         account.password = password.createHash(body.password);
 
         account = await account.save();
+        logger.log(`Изменен пароль ${account.name}`);
         res.json(account);
     },
 
     delete: async (req, res) => {
-        var body = req.body;
         var account = await Account.deleteOne({login: req.params.login});
+        if(account.n == "1")
+            logger.log(`Удален пользователь ${req.params.login}`);
 
         res.json(account);
     }
