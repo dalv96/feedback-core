@@ -12,6 +12,12 @@ module.exports = {
         res.send({"ok": "1"});
     },
 
+    getAll: async (req, res, next)  => {
+        var accounts = await Account.find().lean();
+        res.locals.data = accounts;
+        next();
+    },
+
     get: async (req, res)  => {
         var account = await Account.findOne({ login: req.params.login }).lean();
 
@@ -32,7 +38,6 @@ module.exports = {
     create: async (req, res) => {
         var body = req.body;
         var test = await Account.findOne({login: body.login}).lean();
-
         if(test) res.json({"error": "Данный логин занят!"});
         else {
             if(!body.login || !body.password || !body.name) {

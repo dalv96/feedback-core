@@ -3,9 +3,8 @@ var Account = require('../models/Account'),
     logger = require('./logger');
 
 module.exports = {
-  //
-  isLoggedIn: async (req, res, next) => {
 
+  isLoggedIn: async (req, res, next) => {
       if (req.session.user) {
           var acc = await Account.findOne({login: req.session.user});
           res.locals.user = {
@@ -13,19 +12,33 @@ module.exports = {
               login: acc.login,
               name: acc.name
           };
-          res.send(res.locals.user);
           next();
       } else {
-        res.send({"error": "unauthorizate"})
+        res.locals.user = null;
+        next()
+      }
+  },
+
+  checkAuth: async (req, res) => {
+      if (req.session.user) {
+          var acc = await Account.findOne({login: req.session.user});
+          res.locals.user = {
+              _id: acc._id,
+              login: acc.login,
+              name: acc.name
+          };
+          res.send({user: res.locals.user})
+      } else {
+        res.send({user: null});
       }
   },
 
   logout: function(req, res) {
-      console.log(req);
       req.session.destroy();
+      res.send('Ok')
   },
 
-  checkAuth: async (req, res) => {
+  login: async (req, res) => {
       var acc = await Account.findOne({
           login: req.body.login,
           password: password.createHash(req.body.password)

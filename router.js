@@ -4,11 +4,15 @@ const Account = require('./controllers/account'),
 
 module.exports = function (app) {
 
-    app.post('/login', Auth.checkAuth);
+    app.post('/login', Auth.login);
+
+    app.all('/checkAuth', Auth.checkAuth);
+
+    app.post('/logout', Auth.logout);
 
     app.all('*', Auth.isLoggedIn);
 
-    app.post('/logout', Auth.logout);
+    app.get('/account/', Account.getAll);
 
     app.get('/account/:login', Account.get);
 
@@ -24,4 +28,10 @@ module.exports = function (app) {
 
     app.delete('/feedback/delete', Feedback.delete);
 
+    app.all('*', function (req, res) {
+      res.send({
+        user: res.locals.user,
+        data: res.locals.data
+      })
+    })
 }
