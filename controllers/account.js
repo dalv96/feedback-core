@@ -6,6 +6,12 @@ var Account = require('../models/Account'),
 
 module.exports = {
 
+    test: async (req, res) => {
+        console.log(req.body);
+
+        res.send({"ok": "1"});
+    },
+
     get: async (req, res)  => {
         var account = await Account.findOne({ login: req.params.login }).lean();
 

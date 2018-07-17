@@ -1,7 +1,14 @@
 const Account = require('./controllers/account'),
-    Feedback = require('./controllers/feedback');
+    Feedback = require('./controllers/feedback'),
+    Auth = require('./controllers/auth');
 
 module.exports = function (app) {
+
+    app.post('/login', Auth.checkAuth);
+
+    app.all('*', Auth.isLoggedIn);
+
+    app.post('/logout', Auth.logout);
 
     app.get('/account/:login', Account.get);
 
