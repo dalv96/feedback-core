@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "pro": "./node_modules/.bin/forever -a --minUptime 1000 --spinSleepTime 3000 -l forever.log -o forever.log -e errors.log start index.js",
+    "prostop": "./node_modules/.bin/forever stop index.js"
   },
   "repository": {
     "type": "git",
@@ -24,6 +26,7 @@
     "cors": "^2.8.4",
     "express": "^4.16.3",
     "express-session": "^1.15.6",
+    "forever": "^0.15.3",
     "mongoose": "^5.2.2"
   },
   "devDependencies": {
