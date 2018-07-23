@@ -1,15 +1,20 @@
 'use strict'
 
 var Feedback = require('../models/Feedback'),
-  Account = require('../models/Account'),
   logger = require('./logger');
 
 module.exports = {
 
+  get: async (req, res, next) => {
+    var feedback = await Feedback.find().lean();
+    res.locals.data = {
+      feedback: feedback
+    };
+    next()
+  },
+
   create: async (req, res) => {
     var body = req.body;
-    console.log(body);
-
 
     var feedback = new Feedback({
       author: body.author,
@@ -21,7 +26,7 @@ module.exports = {
       text3: body.text3
     });
     feedback = await feedback.save();
-    logger.log(`Добавлен отзыв о ${user.login}`);
+    logger.log(`Добавлен отзыв о ${body.author}`);
     return
   },
 

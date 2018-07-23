@@ -30,6 +30,8 @@ module.exports = function (app) {
 
     app.delete('/feedback/delete', Feedback.delete);
 
+    app.get('/stat', Feedback.get);
+
     app.all('*', function (req, res) {
       res.send({
         user: res.locals.user,

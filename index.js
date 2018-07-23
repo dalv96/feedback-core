@@ -47,8 +47,17 @@ passport.deserializeUser(function(user, done) {
     done(null, user);
 });
 
-app.post('/login', passport.authenticate('ldapauth', {}), function(req, res) {
-  res.send(req.user);
+app.post('/login', function (req, res, next) {
+  passport.authenticate('ldapauth', {}, function (err, user, info) {
+    if (err) {
+      return next(err); // will generate a 500 error
+    }
+    // Generate a JSON response reflecting authentication status
+    if (!user) {
+      return res.send({error: true});
+    }
+    return res.send(user);
+  })(req, res, next);
 });
 
 router(app);
