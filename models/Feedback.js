@@ -8,10 +8,9 @@ var Feedback = mongoose.Schema({
         required: true,
         default: new Date()
     },
-    user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Account',
-        required: true
+    author: {
+      type: String,
+      required: true
     },
     q1: {
         type: Number,

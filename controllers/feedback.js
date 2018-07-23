@@ -8,15 +8,11 @@ module.exports = {
 
   create: async (req, res) => {
     var body = req.body;
-    var user = await Account.findOne({ login: res.locals.user.login }).lean();
+    console.log(body);
 
-    if (!user) {
-      res.json({"error": "Такого пользователя нет!"});
-      return
-    }
 
     var feedback = new Feedback({
-      user: user,
+      author: body.author,
       q1: body.q1,
       q2: body.q2,
       q3: body.q3,

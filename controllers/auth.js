@@ -2,6 +2,15 @@ var Account = require('../models/Account'),
     password = require('./password'),
     logger = require('./logger');
 
+
+var LdapStrategy = require('passport-ldapauth');
+var passport = require('passport');
+
+passport.use(new LdapStrategy({
+    server: {
+      url: 'ldap://10.240.240.100:389'
+    }
+  }));
 module.exports = {
 
   isLoggedIn: async (req, res, next) => {

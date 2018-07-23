@@ -6,10 +6,11 @@ var Account = require('../models/Account'),
 
 module.exports = {
 
-    test: async (req, res) => {
-        console.log(req.body);
-
-        res.send({"ok": "1"});
+    testLogin: async (req, res, next) => {
+      var account = await Account.findOne({login: req.body.login}).lean();
+      if(account) res.locals.data = true;
+      else res.locals.data = false;
+      next();
     },
 
     getAll: async (req, res, next)  => {
