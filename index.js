@@ -8,21 +8,14 @@ var express = require('express'),
     mongoose = require('./controllers/connect'),
     MongoStore = require('connect-mongo')(expressSession),
     passport = require('passport'),
-    LdapStrategy = require('passport-ldapauth').Strategy;
+    LdapStrategy = require('passport-ldapauth').Strategy,
+    conf = require('./conf/secret');
 
 var app = express();
-// user - 12345zaQ
-// test - Qaz12345
-var OPTS = {
-    server: {
-      url: 'ldap://neao-m.ru:389',
-      bindDN: "dnuser",
-      bindCredentials: 'Qaz12345',
-      searchBase: "ou=NEAO,dc=neao-m,dc=ru",
-      searchFilter: 'sAMAccountName={{username}}'
-    }
-};
 
+var OPTS = {
+  server: conf.ldap
+}
 passport.use(new LdapStrategy(OPTS));
 
 app
