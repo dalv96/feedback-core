@@ -32,6 +32,8 @@ module.exports = function (app) {
 
     app.get('/stat', Feedback.get);
 
+    app.get('/excel', Feedback.getExcel);
+
     app.all('*', function (req, res) {
       res.send({
         user: res.locals.user,
