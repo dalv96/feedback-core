@@ -105,6 +105,7 @@ module.exports = {
 
     var feedback = new Feedback({
       author: body.author,
+      department: body.department,
       date: new Date(),
       q1: body.q1,
       q2: body.q2,
@@ -113,6 +114,7 @@ module.exports = {
       text2: body.text2,
       text3: body.text3
     });
+    
     feedback = await feedback.save();
     logger.log(`Добавлен отзыв о ${body.author}`);
     return
