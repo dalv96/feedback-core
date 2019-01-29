@@ -28,7 +28,16 @@ module.exports = {
   },
 
   getExcel: async (req, res, next) => {
-    var feedback = await Feedback.find();
+    var feedback = await Feedback.find().lean();
+
+    const dateS = new Date(req.query.dateStart)
+    const dateE = new Date(req.query.dateEnd || '2025-12-10')
+
+    feedback = feedback.filter((i) => {
+      const d = new Date(i.date)
+
+      return (dateS < d) && (dateE > d)
+    })
 
     var wb = new xl.Workbook({
       dateFormat: 'dd/mm/yyyy'
