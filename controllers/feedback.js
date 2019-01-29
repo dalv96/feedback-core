@@ -30,7 +30,7 @@ module.exports = {
   getExcel: async (req, res, next) => {
     var feedback = await Feedback.find().lean();
 
-    const dateS = new Date(req.query.dateStart)
+    const dateS = new Date(req.query.dateStart || '2001-12-10')
     const dateE = new Date(req.query.dateEnd || '2025-12-10')
 
     feedback = feedback.filter((i) => {
