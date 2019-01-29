@@ -67,31 +67,33 @@ module.exports = {
 
     ws.cell(1, 1).string('Ф.И.О.').style(style);
     ws.cell(1, 2).string('Дата отзыва').style(style);
-    ws.cell(1, 3).string('1 вопрос').style(style);
-    ws.cell(1, 4).string('2 вопрос').style(style);
-    ws.cell(1, 5).string('3 вопрос').style(style);
-    ws.cell(1, 6, 1, 8, true).number(1).string('Комментарии').style(style);
+    ws.cell(1, 3).string('Отдел').style(style);
+    ws.cell(1, 4).string('1 вопрос').style(style);
+    ws.cell(1, 5).string('2 вопрос').style(style);
+    ws.cell(1, 6).string('3 вопрос').style(style);
+    ws.cell(1, 7, 1, 9, true).number(1).string('Комментарии').style(style);
 
     feedback.forEach( (item, i) => {
       if (item.author && item.author.trim()) {
         ws.cell(counter, 1).string(item.author);
         ws.cell(counter, 2).date(item.date).style(myStyle);;
+        ws.cell(counter, 3).string(item.department);
 
         const q1 = hash1[item.q1+''];
         const q2 = hash2[item.q2+''];
 
-        ws.cell(counter, 3).string(q1).style(myStyle);;
-        ws.cell(counter, 4).string(q2).style(myStyle);
-        ws.cell(counter, 5).number(item.q3).style(myStyle);;
+        ws.cell(counter, 4).string(q1).style(myStyle);;
+        ws.cell(counter, 5).string(q2).style(myStyle);
+        ws.cell(counter, 6).number(item.q3).style(myStyle);;
 
         if (item.text1)
-          ws.cell(counter, 6).string(item.text1).style(myStyle);
+          ws.cell(counter, 7).string(item.text1).style(myStyle);
 
         if (item.text2)
-          ws.cell(counter, 7).string(item.text2).style(myStyle);
+          ws.cell(counter, 8).string(item.text2).style(myStyle);
 
         if (item.text3)
-          ws.cell(counter, 8).string(item.text3).style(myStyle);
+          ws.cell(counter, 9).string(item.text3).style(myStyle);
       
         counter++;
       }
