@@ -39,11 +39,13 @@ module.exports = {
     let counter = 2;
 
     ws.column(1).setWidth(40);
-    ws.column(4).setWidth(17);
+    ws.column(3).setWidth(25);
 
-    ws.column(6).setWidth(25);
+    ws.column(5).setWidth(17);
+
     ws.column(7).setWidth(25);
     ws.column(8).setWidth(25);
+    ws.column(9).setWidth(25);
 
     var myStyle = wb.createStyle({
       alignment: {
