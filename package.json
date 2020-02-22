@@ -29,6 +29,7 @@
     "express-session": "^1.15.6",
     "forever": "^0.15.3",
     "mongoose": "^5.2.2",
+    "morgan": "1.9.1",
     "passport": "^0.4.0",
     "passport-ldapauth": "^2.0.0"
   },
