@@ -11,6 +11,8 @@ var express = require('express'),
     LdapStrategy = require('passport-ldapauth').Strategy,
     conf = require('./conf/secret');
 
+const morgan = require('morgan');
+
 var app = express();
 
 var OPTS = {
@@ -19,6 +21,7 @@ var OPTS = {
 passport.use(new LdapStrategy(OPTS));
 
 app
+    .use(morgan('dev'))
     .disable('x-powered-by')
     .enable('trust proxy')
     .use(cors({

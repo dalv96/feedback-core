@@ -105,7 +105,7 @@ module.exports = {
 
         if (item.text3)
           ws.cell(counter, 9).string(item.text3).style(myStyle);
-      
+
         counter++;
       }
     })
@@ -127,10 +127,11 @@ module.exports = {
       text2: body.text2,
       text3: body.text3
     });
-    
+
     feedback = await feedback.save();
     logger.log(`Добавлен отзыв о ${body.author}`);
-    return
+
+    return res.sendStatus(200);
   },
 
   delete: async (req, res) => {
@@ -139,7 +140,7 @@ module.exports = {
     if(feedback.n == "1")
       logger.log(`Удален отзыв о ${fb.user.login}`);
 
-    res.json(feedback);
+    return res.json(feedback);
   }
 
 };
