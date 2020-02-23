@@ -1,13 +1,12 @@
-'use strict';
 const helper = require('./helper');
 
 module.exports = {
 
-    log: function (text) {
-        var now = helper.dateToExtStr(new Date()),
-            str = `[INFO] ${now} - ${text}`;
+    log(text) {
+        const now = helper.dateToExtStr(new Date());
+        const str = `[INFO] ${now} - ${text}`;
 
         console.log(str);
-    }
+    },
 
 };

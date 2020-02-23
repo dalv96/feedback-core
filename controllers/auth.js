@@ -1,64 +1,63 @@
-var Account = require('../models/Account'),
-    password = require('./password'),
-    logger = require('./logger');
-
-
-var LdapStrategy = require('passport-ldapauth');
-var passport = require('passport');
+const LdapStrategy = require('passport-ldapauth');
+const passport = require('passport');
+const Account = require('../models/Account');
+const password = require('./password');
+const logger = require('./logger');
 
 passport.use(new LdapStrategy({
     server: {
-      url: 'ldap://10.240.240.100:389'
-    }
-  }));
+        url: 'ldap://10.240.240.100:389',
+    },
+}));
+
 module.exports = {
 
-  isLoggedIn: async (req, res, next) => {
-      if (req.session.user) {
-          var acc = await Account.findOne({login: req.session.user});
-          res.locals.user = {
-              _id: acc._id,
-              login: acc.login,
-              name: acc.name
-          };
-          next();
-      } else {
-        res.locals.user = null;
-        next()
-      }
-  },
+    isLoggedIn: async (req, res, next) => {
+        if (req.session.user) {
+            const acc = await Account.findOne({ login: req.session.user });
+            res.locals.user = {
+                _id: acc._id,
+                login: acc.login,
+                name: acc.name,
+            };
+            next();
+        } else {
+            res.locals.user = null;
+            next();
+        }
+    },
 
-  checkAuth: async (req, res) => {
-      if (req.session.user) {
-          var acc = await Account.findOne({login: req.session.user});
-          res.locals.user = {
-              _id: acc._id,
-              login: acc.login,
-              name: acc.name
-          };
-          res.send({user: res.locals.user})
-      } else {
-        res.send({user: null});
-      }
-  },
+    checkAuth: async (req, res) => {
+        if (req.session.user) {
+            const acc = await Account.findOne({ login: req.session.user });
+            res.locals.user = {
+                _id: acc._id,
+                login: acc.login,
+                name: acc.name,
+            };
+            res.send({ user: res.locals.user });
+        } else {
+            res.send({ user: null });
+        }
+    },
 
-  logout: function(req, res) {
-      req.session.destroy();
-      res.send('Ok')
-  },
+    logout(req, res) {
+        req.session.destroy();
+        res.send('Ok');
+    },
 
-  login: async (req, res) => {
-      var acc = await Account.findOne({
-          login: req.body.login,
-          password: password.createHash(req.body.password)
-      })
+    login: async (req, res) => {
+        const acc = await Account.findOne({
+            login: req.body.login,
+            password: password.createHash(req.body.password),
+        });
 
-      if (acc) {
-          req.session.user = acc.login;
-          logger.log(`Success authorization by : ${acc.login}`);
-          res.sendStatus(200);
-      } else {
-          res.send({"error": true})
-      }
-  }
-}
+        if (acc) {
+            req.session.user = acc.login;
+            logger.log(`Success authorization by : ${acc.login}`);
+            res.sendStatus(200);
+        } else {
+            res.send({ error: true });
+        }
+    },
+};

@@ -1,0 +1,23 @@
+{
+    "env": {
+        "commonjs": true,
+        "es6": true,
+        "node": true
+    },
+    "extends": [
+        "airbnb-base"
+    ],
+    "globals": {
+        "Atomics": "readonly",
+        "SharedArrayBuffer": "readonly"
+    },
+    "parserOptions": {
+        "ecmaVersion": 2018
+    },
+    "rules": {
+        "func-names": "off",
+        "indent": ["error", 4],
+        "arrow-parens": "off",
+        "no-underscore-dangle": "off"
+    }
+}

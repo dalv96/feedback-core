@@ -1,21 +1,20 @@
-'use strict'
-
 const mongoose = require('mongoose');
 
 mongoose.Promise = global.Promise;
-var options = {
+
+const options = {
     useNewUrlParser: true,
-    promiseLibrary: global.Promise
+    promiseLibrary: global.Promise,
 };
 
-var url = '127.0.0.1:27017';
-var name = 'feedback';
-var uri = 'mongodb://' + url + '/' + name;
+const url = '127.0.0.1:27017';
+const name = 'feedback';
+const uri = `mongodb://${url}/${name}`;
 
 mongoose.connect(uri, options);
 
-mongoose.connection.on('connected', function() {
-    // console.log('Connected to DB');
+mongoose.connection.on('connected', () => {
+    console.log('Connected to DB');
 });
 
 module.exports = mongoose;
