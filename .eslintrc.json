@@ -18,6 +18,8 @@
         "func-names": "off",
         "indent": ["error", 4],
         "arrow-parens": "off",
-        "no-underscore-dangle": "off"
+        "no-underscore-dangle": "off",
+        "no-plusplus": "off",
+        "no-await-in-loop": "warn"
     }
 }

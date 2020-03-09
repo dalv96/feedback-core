@@ -5,6 +5,9 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const LdapStrategy = require('passport-ldapauth').Strategy;
+const timeout = require('connect-timeout');
+const moment = require('moment');
+
 const router = require('./router');
 
 const conf = require('./conf/secret');
@@ -16,8 +19,17 @@ const OPTS = {
     server: conf.ldap,
 };
 
+app.use(morgan((tokens, req, res) => [
+    moment().format('DD.MM.YYYY HH:mm:ss'),
+    '*',
+    tokens.method(req, res),
+    tokens.url(req, res),
+    tokens.status(req, res),
+    tokens['response-time'](req, res), 'ms',
+].join(' ')));
+
 app
-    .use(morgan('dev'))
+    // .use(morgan('dev'))
     .disable('x-powered-by')
     .enable('trust proxy')
     .use(cors({ origin: true, credentials: true }))
@@ -25,17 +37,24 @@ app
     .use(bodyParser.json())
     .use(cookieParser());
 
-passport.use(new LdapStrategy(OPTS));
-app.use(passport.initialize());
-app.use(passport.session());
+function haltOnTimedout(req, res, next) {
+    if (!req.timedout) next();
+}
 
-passport.serializeUser((user, done) => {
-    done(null, user);
-});
+app.use(timeout(10000));
+app.use(haltOnTimedout);
 
-passport.deserializeUser((user, done) => {
-    done(null, user);
-});
+// passport.use(new LdapStrategy(OPTS));
+// app.use(passport.initialize());
+// app.use(passport.session());
+
+// passport.serializeUser((user, done) => {
+//     done(null, user);
+// });
+
+// passport.deserializeUser((user, done) => {
+//     done(null, user);
+// });
 
 app.post('/login', (req, res, next) => {
     passport.authenticate('ldapauth', {}, (err, user) => {

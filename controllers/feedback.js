@@ -135,6 +135,13 @@ module.exports = {
         return res.sendStatus(200);
     },
 
+    newCreate: async (req, res) => {
+        const { body } = req;
+        const {
+            author, department, questions, dateStart, dateEnd,
+        } = body;
+    },
+
     delete: async (req, res) => {
         const fb = await Feedback.findOne({ _id: req.params._id }).populate('user');
         const feedback = await Feedback.deleteOne({ _id: req.params._id });
